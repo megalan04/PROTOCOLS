@@ -35,16 +35,16 @@ module spi_master (
             SCLK<=0;
             clk_div<=0;
         end
-        else if(state == TRANSFER) begin
-            clk_div <= clk_div + 1;
-            if (clk_div == 2'b01) begin
-                SCLK <= ~SCLK;
-                clk_div <= 0;
+        else if(state==TRANSFER) begin
+            clk_div<=clk_div+1;
+            if (clk_div==2'b01) begin
+                SCLK<=~SCLK;
+                clk_div<=0;
             end
         end
         else begin
-            SCLK <= cpol;
-            clk_div <= 0;
+            SCLK<=cpol;
+            clk_div<=0;
         end
     end
 
@@ -83,7 +83,7 @@ module spi_master (
                 bit_cnt<=0;
                 data_out<=0;
 
-                MOSI<=data_in[7]; // first bit
+                MOSI<=data_in[7]; 
                 state<=TRANSFER;
             end
 
@@ -94,13 +94,11 @@ module spi_master (
                 end
                 if(sample_edge)begin
                     data_out<={data_out[6:0], MISO};
-
                     bit_cnt<=bit_cnt + 1;
                     if(bit_cnt==3'd7)
                         state<=DONE;
                 end
             end
-
             DONE:begin
                 SS<=1'b1;
                 done<=1'b1;
